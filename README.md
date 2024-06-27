@@ -67,3 +67,10 @@ The specific usage is `criticality_score -depsdev-disable github_url`. This can 
 
 3. **View the results**:
    - The output file `scores.csv` will contain the score for each repository.
+
+
+## GraphConstruct
+
+
+
+## CloneDetection
