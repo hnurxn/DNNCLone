@@ -29,7 +29,7 @@ def build_inverted_index(code_dict, n):
     hash_dict = {}
     for func_id, code_lines in code_dict.items():
         if len(code_lines) < n:
-            continue  # 跳过行数少于n的代码段
+            continue  # Skip code segments with less than n lines
         hash_dict[func_id] = []
         for i in range(len(code_lines) - n + 1):
             n_lines = code_lines[i:i + n]
@@ -73,22 +73,22 @@ def process_json_files(input_dir, limit=500):
     return code_dict, line_dict, ast_dict
 
 def main(input_dir, n, max_files):
-    # 预处理阶段：生成倒排索引和哈希字典
+    # Preprocessing: Generate inverted index and hash dictionary
     code_dict, line_dict, ast_dict = process_json_files(input_dir, max_files)
     inverted_index, hash_dict = build_inverted_index(line_dict, n)
     # print(len(code_dict), len(inverted_index), len(hash_dict))
 
-    # 生成全局token频率统计
+    # Generate global token frequency statistics
     all_blocks = []
-    for c in code_dict.values():  # 将代码行列表连接成一个字符串
+    for c in code_dict.values():  # Combine code line lists into a single string
         all_blocks.append(c)
-    generate_GPT(all_blocks, __GloPT__)  # 将__GloPT__作为参数传递给函数
-    sort_gloPT(__GloPT__)  # 也需要将__GloPT__作为参数传递给函数
+    generate_GPT(all_blocks, __GloPT__)  # Pass __GloPT__ as a parameter to the function
+    sort_gloPT(__GloPT__)  # Also pass __GloPT__ as a parameter to the function
     
-    # 定位阶段：使用倒排索引和哈希字典定位可能的克隆对
+    # Localization: Use inverted index and hash dictionary to locate possible clone pairs
     clone_pairs, Sim_list, second_level_candidates = locate_clones(inverted_index, hash_dict)
     # print(len(clone_pairs), len(second_level_candidates))
-    # SourcererCC相似度判定
+    # SourcererCC similarity determination
     third_level_candidates = []
     for f1, f2 in second_level_candidates:
         code1 = code_dict[f1]
@@ -96,14 +96,14 @@ def main(input_dir, n, max_files):
         
         similarity = SourcererCC_Similarity(code1, code2, __GloPT__)
         # print("SourcererCC",similarity)
-        if similarity >= 0.7:  # 最终相似度阈值
+        if similarity >= 0.7:  # Final similarity threshold
             clone_pairs.append((f1, f2))
             print("SourcererCC",similarity)
             Sim_list.append(similarity)
-        elif 0.4 <= similarity < 0.7:  # 第三级别相似度阈值
+        elif 0.4 <= similarity < 0.7:  # Third level similarity threshold
             third_level_candidates.append((f1, f2))
     print("num of third",len(third_level_candidates))
-    # 第三级别克隆候选对去重
+    # Deduplication of third-level clone candidates
     for f1, f2 in third_level_candidates:
         ast1 = ast_dict[f1]
         ast2 = ast_dict[f2]
@@ -112,7 +112,7 @@ def main(input_dir, n, max_files):
         if similarity >= 0.65:
             clone_pairs.append((f1, f2))
             Sim_list.append(similarity)
-    # 将所有克隆进行存储
+    # Store all clones
     with open('clone_report.txt', 'w') as report:
         # report.write('Detected clones (similarity > 0.70):\n')
         for i in range(len(clone_pairs)):
@@ -123,6 +123,6 @@ def main(input_dir, n, max_files):
 
 if __name__ == "__main__":
     input_dir = "/bdata2/AISystemEvaluation/DNNForest"
-    n = 3  # 假设我们想要处理3行的块，可以根据需要调整
-    max_files = 100  # 限制读取的JSON文件总数为500
+    n = 3  # Assume we want to process 3-line blocks; adjust as needed
+    max_files = 100  # Limit the total number of JSON files to read to 500
     main(input_dir, n, max_files)
