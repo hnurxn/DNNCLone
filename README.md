@@ -71,6 +71,42 @@ The specific usage is `criticality_score -depsdev-disable github_url`. This can 
 
 ## GraphConstruct
 
+Overview of Extracting and Analyzing Neural Network Modules.
+
+1. **extract.py**
+   - **Purpose:** Analyzes Python projects to extract neural network (NN) modules.
+   - **Key Functions:**
+     - **Class Transformers:** Remove constants and print statements.
+     - **Code Analysis:** Parse and clean code, extract class definitions.
+     - **Directory Processing:** Count lines of code, get directory size.
+     - **Main Workflow:** Process repositories, extract NN modules, save results in JSON.
+
+2. **dependency.py**
+   - **Purpose:** Establishes dependencies between extracted NN modules.
+   - **Key Functions:**
+     - **`CodeVisitor`:** AST visitor to detect class calls.
+     - **Dependency Setup:** Parse code to identify and set dependencies among NN modules.
+
+3. **utils.py**
+   - **Purpose:** Provides utility functions to support `extract.py` and `dependency.py`.
+   - **Key Functions:**
+     - **Command Execution:** Run shell commands.
+     - **Dependency Management:** Build and translate dependency dictionaries, locate callee indices.
+
+#### Usage Steps
+
+1. **Setup:**
+   - Place `extract.py`, `dependency.py`, and `utils.py` in the same directory.
+   - Ensure you have a directory of Python projects to analyze.
+
+2. **Run the Script:**
+   - Execute `extract.py`:
+     ```bash
+     python extract.py
+     ```
+
+3. **Analyze Results:**
+   - JSON files will be created in the specified storage folder, containing information about NN modules and their dependencies.
 
 
 ## CloneDetection
