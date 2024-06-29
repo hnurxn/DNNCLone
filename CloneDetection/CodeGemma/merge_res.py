@@ -14,7 +14,6 @@ def transform(file):
         project_id2 = unique_id2.split("_")[0]
         node_id2 = unique_id2.split("_")[1]
         newlines+= f"{project_id1}:{node_id1}|{project_id2}:{node_id2}\n"
-        # newlines.append(f"{project_id1}:{node_id2}|{project_id1}:{node_id2}")
     return newlines
 
 res = ""
