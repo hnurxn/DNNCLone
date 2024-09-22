@@ -1,5 +1,5 @@
-# DNNCLone
-This repository contains the core code description of the paper "From Simple to Structural Clone in Neural Networks: Tapping the Data Flow Trace."
+# NNReuse
+This repository contains the core code description of the paper "Exploring Neural Network Structure Reuse in the Open-Source Community for Improving Maintenance."
 
 There are four steps:
 - Download the dataset
