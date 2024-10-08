@@ -109,11 +109,11 @@ Overview of Extracting and Analyzing Neural Network Modules.
    - JSON files will be created in the specified storage folder, containing information about NN modules and their dependencies.
 
 
-## CloneDetection
+## ReuseDetection
 
-### DNNClone（OurMethod）
+### NNReuse（OurMethod）
 
-#### Exact Clone
+#### Exact Reuse
 
 
 This script processes Python code by removing comments, print statements, and logging statements. It operates on JSON files containing code representations of neural networks, performing the following transformations:
@@ -121,7 +121,7 @@ This script processes Python code by removing comments, print statements, and lo
 2. Remove all print statements.
 3. Remove all logging statements.
 
-#### Renamed Clone
+#### Shallow Reuse
 
 This script is designed to process and modify neural network code in Python by standardizing class names, method parameters, and variable names. It operates on JSON files containing code representations of neural networks, performing the following transformations:
 1. Replace class and base class names.
@@ -129,7 +129,7 @@ This script is designed to process and modify neural network code in Python by s
 3. Replace variables in the `__init__` and `forward` methods.
 4. Process a directory of JSON files and output the modified code to new files.
 
-#### Structural Clone
+#### Conceptural Reuse
 
 This script extends the functionality of parsing neural network layers from a given Python class that inherits from `nn.Module`. It not only identifies the layers defined in the `__init__` method but also analyzes the order of their usage in the `forward` method. Additionally, the script handles more complex scenarios such as nested function calls and different method invocations.
 
