@@ -5,7 +5,7 @@ There are four steps:
 - Download the dataset
 - Clean the dataset
 - Construct the call graph
-- Clone analysis
+- Reuse analysis
 
 ## DataSetDownload
 First, between the dates 2012-04-01 and 2024-04-01, scrape all repositories with the keyword "pytorch" primarily in Python, including [full_name, clone_url, stargazers_count, topics, description, created_at, updated_at]. Due to the large number of repositories, slice scraping is required. After scraping, download the repository content in bulk according to the clone_url. The core code is as follows:
@@ -129,7 +129,7 @@ This script is designed to process and modify neural network code in Python by s
 3. Replace variables in the `__init__` and `forward` methods.
 4. Process a directory of JSON files and output the modified code to new files.
 
-#### Conceptural Reuse
+#### Conceptual Reuse
 
 This script extends the functionality of parsing neural network layers from a given Python class that inherits from `nn.Module`. It not only identifies the layers defined in the `__init__` method but also analyzes the order of their usage in the `forward` method. Additionally, the script handles more complex scenarios such as nested function calls and different method invocations.
 
@@ -142,10 +142,9 @@ This script extends the functionality of parsing neural network layers from a gi
    ```python
    cloneDetector("input/path")
 
-#### CloneDetectionTool
+#### ReuseDetectionTool
 
-This script is designed to detect code clones in neural network projects stored in JSON format. It processes the JSON files to extract code snippets, tokenize and clean the code, and then clusters similar code snippets together to identify potential clones. The results, along with various statistics, are saved to a file. To use the script, ensure you have Python and the necessary libraries installed (`autopep8`, `tqdm`, `mmh3`). Place your JSON files in a directory (e.g., `DNNForest/`). Then, use the command line to execute the script with the appropriate arguments, such as `python script_name.py --forestDir /path/to/json/files --outputDir /path/to/output --type your_clone_type`. The script will generate a detailed report of clone clusters and their statistics, saved in the specified output directory. For example, running `python clone_detection.py --forestDir DNNForest/ --outputDir DNNForestOutput/ --type T1` will process the JSON files in `DNNForest/`, perform Type-1 clone detection, and save the results in `DNNForestOutput/`.
-
+This script is designed to detect code reuse in neural network projects stored in JSON format. It processes the JSON files to extract code snippets, tokenize and clean the code, and then clusters similar code snippets together to identify potential clones. The results, along with various statistics, are saved to a file. To use the script, ensure you have Python and the necessary libraries installed (`autopep8`, `tqdm`, `mmh3`). Place your JSON files in a directory (e.g., `DNNForest/`). Then, use the command line to execute the script with the appropriate arguments, such as `python script_name.py --forestDir /path/to/json/files --outputDir /path/to/output --type your_clone_type`. The script will generate a detailed report of clone clusters and their statistics, saved in the specified output directory. For example, running `python clone_detection.py --forestDir DNNForest/ --outputDir DNNForestOutput/ --type T1` will process the JSON files in `DNNForest/`, perform Type exact reuse detection, and save the results in `DNNForestOutput/`.
 
 
 
